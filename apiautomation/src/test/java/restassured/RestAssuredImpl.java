@@ -1,6 +1,7 @@
 package restassured;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
@@ -10,10 +11,42 @@ public class RestAssuredImpl {
 
     String token;
 
-   @Test
-    public void Login(){
+    @BeforeClass
+    public void setup(){
         //Define base_url
         RestAssured.baseURI="https://whitesmokehouse.com";
+
+    }
+
+    @Test
+    public void Register(){
+        //Create Register Request
+        String requestBody = "{\n" + //
+                        "  \"email\": \"testqa.wrc002@gmail.com\",\n" + //
+                        "  \"full_name\": \"Test\",\n" + //
+                        "  \"password\": \"@dmin123\",\n" + //
+                        "  \"department\": \"Technology\",\n" + //
+                        "  \"phone_number\": \"085611789000\"\n" + //
+                        "}";
+        
+        //Send POST request to Register endpoint
+        Response response = RestAssured.given()
+            .header("Content-Type", "application/json")
+            .body(requestBody)
+            .log().all()
+            .when()
+            .post("/webhook/api/register");
+        
+        //Print the response
+        System.out.println("Response: " + response.asPrettyString());
+
+        //Validate the response
+        assert response.jsonPath().getString("email").equals("testqa.wrc002@gmail.com"): "Expected email testqa.wrc5@gmail.com, but got "+ response.jsonPath().getString("email");
+        }
+
+   @Test (priority = 1)
+    public void Login(){
+        
         //Create Login Request
         String requestBody = "{\n" + //
                         "  \"email\": \"trisniy097@gmail.com\",\n" + //
@@ -36,8 +69,6 @@ public class RestAssuredImpl {
 
     @Test (dependsOnMethods="Login")
     public void AddObject(){
-        //Define base_url
-        RestAssured.baseURI="https://whitesmokehouse.com";
         //Create Add Object Request
         String requestBody ="{\n" +
                             "  \"name\": \"Lenovo K14\",\n" +
@@ -76,7 +107,6 @@ public class RestAssuredImpl {
     
     @Test (dependsOnMethods="AddObject")
     public void GetAllObjects(){
-        //RestAssured.baseURI="https://whitesmokehouse.com";
 
         //Send GET request to Get All Objects endpoint
         Response response = RestAssured.given()
@@ -96,17 +126,16 @@ public class RestAssuredImpl {
 
     @Test  (dependsOnMethods= "AddObject")
     public void GetObjectById(){
-        RestAssured.baseURI="https://whitesmokehouse.com";
 
         //Send GET request to Get All Objects endpoint
         Response response = RestAssured.given()
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer " + token)
-        .queryParam("id", 21)
+        .queryParam("id", 371)
         .queryParam("active", "true")
         .log().all()
         .when()
-        .get("/webhook/api/objects");
+        .get("/webhook/api/objectslistId");
 
         //Print the response
         System.out.println("Response: " + response.asPrettyString());
@@ -116,7 +145,7 @@ public class RestAssuredImpl {
 
         //Response Validation
         int productId = response.jsonPath().getInt("[0].id");
-        Assert.assertEquals(productId,21, "Product Id mismatch");
+        Assert.assertEquals(productId,371, "Product Id mismatch");
         String productName = response.jsonPath().getString("[0].name");
         Assert.assertEquals(productName,"Lenovo K14", "Product Name mismatch");
 
@@ -124,12 +153,12 @@ public class RestAssuredImpl {
 
     @Test (dependsOnMethods = "Login")
     public void GetSingleObject(){
-        RestAssured.baseURI="https://whitesmokehouse.com";
+        
         Response response = RestAssured.given()
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer " + token)
         .pathParam("webhookId", "8749129e-f5f7-4ae6-9b03-93be7252443c")
-        .pathParam("id", 29)
+        .pathParam("id", 371)
         .log().all()
         .when()
         .get("/webhook/{webhookId}/api/objects/{id}");
@@ -142,17 +171,15 @@ public class RestAssuredImpl {
 
         //Response Validation
         int productId = response.jsonPath().getInt("id");
-        Assert.assertEquals(productId,29, "Product Id mismatch");
+        Assert.assertEquals(productId,371, "Product Id mismatch");
         String productName = response.jsonPath().getString("name");
-        Assert.assertEquals(productName,"Lenovo Thinkpad", "Product Name mismatch");
+        Assert.assertEquals(productName,"Lenovo K14", "Product Name mismatch");
 
     }
 
     @Test (dependsOnMethods="Login")
     public void UpdateObject(){
-        //Define base_url
-        RestAssured.baseURI="https://whitesmokehouse.com";
-        
+                
         //Create Update Object Request
         String requestBody ="{\n" +
                             "  \"name\": \"Lenovo K14 - Update\",\n" +
@@ -172,7 +199,7 @@ public class RestAssuredImpl {
         .header("Content-Type","application/json")
         .header("Authorization", "Bearer " + token)
         .pathParam("webhookId", "37777abe-a5ef-4570-a383-c99b5f5f7906")
-        .pathParam("id", 11)
+        .pathParam("id", 372)
         .body(requestBody)
         .log().all()
         .when()
@@ -191,8 +218,6 @@ public class RestAssuredImpl {
 
     @Test (dependsOnMethods="UpdateObject")
     public void PartiallyUpdatedObject(){
-        //Define base_url
-        RestAssured.baseURI="https://whitesmokehouse.com";
 
         //Create Partially Update Object Request
         String requestBody ="{\n" +
@@ -206,7 +231,7 @@ public class RestAssuredImpl {
         .header("Content-Type","application/json")
         .header("Authorization", "Bearer " + token)
         .pathParam("webhookId", "39a0f904-b0f2-4428-80a3-391cea5d7d04")
-        .pathParam("id", 11)
+        .pathParam("id", 372)
         .body(requestBody)
         .log().all()
         .when()
@@ -226,15 +251,13 @@ public class RestAssuredImpl {
 
     @Test (dependsOnMethods= "PartiallyUpdatedObject")
     public void DeleteObject(){
-        //Define base_url
-        RestAssured.baseURI="https://whitesmokehouse.com";
 
         //Send DELETE request to Delete Objects endpoint
         Response response = RestAssured.given()
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer " + token)
         .pathParam("webhookId", "d79a30ed-1066-48b6-83f5-556120afc46f")
-        .pathParam("id", 66)
+        .pathParam("id", 406)
         .log().all()
         .when()
         .delete("/webhook/{webhookId}/api/objects/{id}");
@@ -249,7 +272,6 @@ public class RestAssuredImpl {
     
     @Test (dependsOnMethods= "Login")
     public void GetAllDepartment(){
-        RestAssured.baseURI="https://whitesmokehouse.com";
 
         //Send GET request to Get All Objects endpoint
         Response response = RestAssured.given()
@@ -268,32 +290,5 @@ public class RestAssuredImpl {
 
     }
 
-    //Sementara register dimatikan, biar tidak ikut di test saat check method lain :)
-    /*@Test
-    public void Register(){
-        //Define base_url
-        RestAssured.baseURI="https://whitesmokehouse.com";
-        //Create Register Request
-        String requestBody = "{\n" + //
-                        "  \"email\": \"testqa.wrc5@gmail.com\",\n" + //
-                        "  \"full_name\": \"Test\",\n" + //
-                        "  \"password\": \"@dmin123\",\n" + //
-                        "  \"department\": \"Technology\",\n" + //
-                        "  \"phone_number\": \"085611789000\"\n" + //
-                        "}";
-        
-        //Send POST request to Login endpoint
-        Response response = RestAssured.given()
-            .header("Content-Type", "application/json")
-            .body(requestBody)
-            .log().all()
-            .when()
-            .post("/webhook/api/register");
-        
-        //Print the response
-        System.out.println("Response: " + response.asPrettyString());
-
-        //Validate the response
-        assert response.jsonPath().getString("email").equals("testqa.wrc5@gmail.com"): "Expected email testqa.wrc5@gmail.com, but got "+ response.jsonPath().getString("email");
-        }*/
+    
 }
