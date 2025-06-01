@@ -93,7 +93,7 @@ public void setup() throws JsonProcessingException{
 public void registerEmployee() throws JsonProcessingException{
         
     //1. Hit the endpoint Register with valid data  
-    RequestRegister smRegister = new RequestRegister("testqa.wrc117@gmail.com","Test", "@dmin123", "Technology", "085611789000");
+    RequestRegister smRegister = new RequestRegister("testqa.wrc118@gmail.com","Test", "@dmin123", "Technology", "085611789000");
     ObjectMapper objectMapper = new ObjectMapper();
     String reqBodyRegister = objectMapper.writeValueAsString(smRegister);
     
@@ -112,14 +112,14 @@ public void registerEmployee() throws JsonProcessingException{
     Assert.assertEquals(responseRegister.getStatusCode(), 200, 
     "Expected Status Code 200 but got " + responseRegister.getStatusCode());
     Assert.assertNotNull(rspRegister.id, "Expected id but got null");
-    Assert.assertEquals(rspRegister.email, "testqa.wrc117@gmail.com");
+    Assert.assertEquals(rspRegister.email, "testqa.wrc118@gmail.com");
     Assert.assertEquals(rspRegister.fullName, "Test");
     Assert.assertEquals(rspRegister.department, "Technology");
     Assert.assertEquals(rspRegister.phoneNumber, "085611789000");
 
     //2. Hit the endpoint Login with valid data
     //Try using Serialize
-    RequestLogin smLogin = new RequestLogin("testqa.wrc117@gmail.com","@dmin123");
+    RequestLogin smLogin = new RequestLogin("testqa.wrc118@gmail.com","@dmin123");
     //ObjectMapper objectMapper = new ObjectMapper();
     String reqBodyLogin = objectMapper.writeValueAsString(smLogin);
     
@@ -173,13 +173,13 @@ public void registerEmployee() throws JsonProcessingException{
         
         Assert.assertNotNull(rspAddObj.get(0).getId(), "Expected id but got null");
         Assert.assertEquals(rspAddObj.get(0).getName(), "Lenovo K14");
-        Assert.assertEquals(rspAddObj.get(0).getData().year, 2024);
-        Assert.assertEquals(rspAddObj.get(0).getData().price, 1849.99);
-        Assert.assertEquals(rspAddObj.get(0).getData().CPUModel, "Intel Core i9");
-        Assert.assertEquals(rspAddObj.get(0).getData().HDSize, "1 TB");
-        Assert.assertEquals(rspAddObj.get(0).getData().capacity, "2 cpu");
-        Assert.assertEquals(rspAddObj.get(0).getData().screenSize, "14 Inch");
-        Assert.assertEquals(rspAddObj.get(0).getData().color, "black");
+        Assert.assertEquals(rspAddObj.get(0).getData().getYear(), 2024);
+        Assert.assertEquals(rspAddObj.get(0).getData().getPrice(), 1849.99);
+        Assert.assertEquals(rspAddObj.get(0).getData().getCPUModel(), "Intel Core i9");
+        Assert.assertEquals(rspAddObj.get(0).getData().getHDSize(), "1 TB");
+        Assert.assertEquals(rspAddObj.get(0).getData().getCapacity(), "2 cpu");
+        Assert.assertEquals(rspAddObj.get(0).getData().getScreenSize(), "14 Inch");
+        Assert.assertEquals(rspAddObj.get(0).getData().getColor(), "black");
 
         //Hit the endpoint GetSingleObject with valid data
         Response rspValidateCreateObj = RestAssured.given()
@@ -202,13 +202,13 @@ public void registerEmployee() throws JsonProcessingException{
         //Response Validation
         Assert.assertNotNull(rspCreateObj.getId(), "Expected id but got null");
         Assert.assertEquals(rspCreateObj.getName(), "Lenovo K14");
-        Assert.assertEquals(rspCreateObj.getData().year, "2024");
-        Assert.assertEquals(rspCreateObj.getData().price, "1849.99");
-        Assert.assertEquals(rspCreateObj.getData().CPUModel, "Intel Core i9");
-        Assert.assertEquals(rspCreateObj.getData().HDSize, "1 TB");
-        Assert.assertEquals(rspCreateObj.getData().capacity, 2);
-        Assert.assertEquals(rspCreateObj.getData().screenSize, 14);
-        Assert.assertEquals(rspCreateObj.getData().color, "black");
+        Assert.assertEquals(rspCreateObj.getData().getYear(), "2024");
+        Assert.assertEquals(rspCreateObj.getData().getPrice(), "1849.99");
+        Assert.assertEquals(rspCreateObj.getData().getCPUModel(), "Intel Core i9");
+        Assert.assertEquals(rspCreateObj.getData().getHDSize(), "1 TB");
+        Assert.assertEquals(rspCreateObj.getData().getCapacity(), 2);
+        Assert.assertEquals(rspCreateObj.getData().getScreenSize(), 14);
+        Assert.assertEquals(rspCreateObj.getData().getColor(), "black");
 
         
     }
@@ -250,13 +250,13 @@ public void registerEmployee() throws JsonProcessingException{
         //Response Validation
         Assert.assertNotNull(rspUpdateObj.get(0).getId(), "Expected id but got null");
         Assert.assertEquals(rspUpdateObj.get(0).getName(), "Lenovo Yoga");
-        Assert.assertEquals(rspUpdateObj.get(0).getData().year, 2025);
-        Assert.assertEquals(rspUpdateObj.get(0).getData().price, 1999.99);
-        Assert.assertEquals(rspUpdateObj.get(0).getData().CPUModel, "Intel Core i8");
-        Assert.assertEquals(rspUpdateObj.get(0).getData().HDSize, "2 TB");
-        Assert.assertEquals(rspUpdateObj.get(0).getData().color, "gray");
-        Assert.assertEquals(rspUpdateObj.get(0).getData().capacity, "4 cpu");
-        Assert.assertEquals(rspUpdateObj.get(0).getData().screenSize, "12 inch");
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getYear(), 2025);
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getPrice(), 1999.99);
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getCPUModel(), "Intel Core i8");
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getHDSize(), "2 TB");
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getColor(), "gray");
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getCapacity(), "4 cpu");
+        Assert.assertEquals(rspUpdateObj.get(0).getData().getScreenSize(), "12 inch");
 
         //Hit the endpoint GetSingleObject with valid data
         Response rspValidateUpdateObj = RestAssured.given()
@@ -279,13 +279,13 @@ public void registerEmployee() throws JsonProcessingException{
         //Response Validation
         Assert.assertNotNull(rspValUpdateObj.getId(), "Expected id but got null");
         Assert.assertEquals(rspValUpdateObj.getName(), "Lenovo Yoga");
-        Assert.assertEquals(rspValUpdateObj.getData().year, "2025");
-        Assert.assertEquals(rspValUpdateObj.getData().price, "1999.99");
-        Assert.assertEquals(rspValUpdateObj.getData().CPUModel, "Intel Core i8");
-        Assert.assertEquals(rspValUpdateObj.getData().HDSize, "2 TB");
-        Assert.assertEquals(rspValUpdateObj.getData().capacity, 4);
-        Assert.assertEquals(rspValUpdateObj.getData().screenSize, 12);
-        Assert.assertEquals(rspValUpdateObj.getData().color, "gray");
+        Assert.assertEquals(rspValUpdateObj.getData().getYear(), "2025");
+        Assert.assertEquals(rspValUpdateObj.getData().getPrice(), "1999.99");
+        Assert.assertEquals(rspValUpdateObj.getData().getCPUModel(), "Intel Core i8");
+        Assert.assertEquals(rspValUpdateObj.getData().getHDSize(), "2 TB");
+        Assert.assertEquals(rspValUpdateObj.getData().getCapacity(), 4);
+        Assert.assertEquals(rspValUpdateObj.getData().getScreenSize(), 12);
+        Assert.assertEquals(rspValUpdateObj.getData().getColor(), "gray");
 
     }
 
@@ -324,8 +324,8 @@ public void registerEmployee() throws JsonProcessingException{
         //Response Validation       
         Assert.assertNotNull(rspPartiallyUpdateObj.getId(), "Expected id but got null");
         Assert.assertEquals(rspPartiallyUpdateObj.getName(), "Lenovo Ideapad");
-        Assert.assertEquals(rspPartiallyUpdateObj.getData().year, "2027");
-        Assert.assertEquals(rspPartiallyUpdateObj.getData().color, "white");
+        Assert.assertEquals(rspPartiallyUpdateObj.getData().getYear(), "2027");
+        Assert.assertEquals(rspPartiallyUpdateObj.getData().getColor(), "white");
 
 
         //Hit the endpoint GetSingleObject with valid data
@@ -349,13 +349,13 @@ public void registerEmployee() throws JsonProcessingException{
         //Response Validation
         Assert.assertNotNull(rspValPartiallyUpdateObj.getId(), "Expected id but got null");
         Assert.assertEquals(rspValPartiallyUpdateObj.getName(), "Lenovo Ideapad");
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().year, "2027");
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().price, "1999.99");
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().CPUModel, "Intel Core i8");
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().HDSize, "2 TB");
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().capacity, 4);
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().screenSize, 12);
-        Assert.assertEquals(rspValPartiallyUpdateObj.getData().color, "white");
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getYear(), "2027");
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getPrice(), "1999.99");
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getCPUModel(), "Intel Core i8");
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getHDSize(), "2 TB");
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getCapacity(), 4);
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getScreenSize(), 12);
+        Assert.assertEquals(rspValPartiallyUpdateObj.getData().getColor(), "white");
 
     }
 

@@ -13,37 +13,37 @@ public class ResponseUpdateObject {
 //JSON to Object (Deserialize Model)
 
 @JsonProperty("id")
-public int id;
+private int id;
 
 @JsonProperty("name")
-public String name;
+private String name;
 
 @JsonProperty("data")
-public DataDetail data;
+private DataDetail data;
 
-
+@Data
 public static class DataDetail {
 
         @JsonProperty("year")
-        public int year;     
+        private int year;     
 
         @JsonProperty("price")
-        public double price;
+        private double price;
 
         @JsonProperty("CPU model")
-        public String CPUModel; 
+        private String CPUModel; 
 
         @JsonProperty("Hard disk size")
-        public String HDSize;
+        private String HDSize;
 
         @JsonProperty("color")
-        public String color; 
+        private String color; 
 
         @JsonProperty("capacity")
-        public String capacity;
+        private String capacity;
 
         @JsonProperty("screen_size")
-        public String screenSize; 
+        private String screenSize; 
 
     }
 }
