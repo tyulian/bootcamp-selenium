@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="9.366" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-06-08T14:44:45.284604800Z">
+<testcase classname="API" name="Register using valid data" time="3.933">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+When Send an http "POST" request to "/api/register" with body:..............passed
+Then The response code must be 200..........................................passed
+And The response schema should be match with schema "register-schema.json"..passed
+And The Id is not null......................................................passed
+And The email should equal "testqa.wrc86@gmail.com".........................passed
+And The full_name should equal "Test QA"....................................passed
+And The department should equal "Technology"................................passed
+And The phone_number should equal "085611789000"............................passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Login using valid credentials" time="0.709">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+When Send an http "POST" request to "/api/login" with body:.................passed
+Then The response code must be 200..........................................passed
+And Save the token from the response to the local storage...................passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Create Object" time="1.137">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+Given Have token on the local storage.......................................passed
+When Send an http "POST" request to "/api/objects" with body:...............passed
+Then The response code must be 200..........................................passed
+And The idObject is not null................................................passed
+And Save the idObject from the response to the local storage................passed
+And The name from the create response should be "Lenovo K14"................passed
+And The year from the create response should be 2024........................passed
+And The price from the create response should be 1849.99....................passed
+And The cpu_model from the create response should be "Intel Core i9"........passed
+And The hard_disk_size from the create response should be "1 TB"............passed
+And The capacity from the create response should be "2 cpu".................passed
+And The screen_size from the create response should be "14 inch"............passed
+And The color from the create response should be "black"....................passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Get Single Object" time="0.933">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+Given Have token on the local storage.......................................passed
+When Send an http "GET" request to "/{webhookId}/api/objects/{id}" with body:.passed
+Then The response code must be 200..........................................passed
+And The idObject is not null................................................passed
+And The name from the single-object response should be "Lenovo K14".........passed
+And The year from the single-object response should be "2024"...............passed
+And The price from the single-object response should be "1849.99"...........passed
+And The cpu_model from the single-object response should be "Intel Core i9".passed
+And The hard_disk_size from the single-object response should be "1 TB".....passed
+And The capacity from the single-object response should be 2................passed
+And The screen_size from the single-object response should be 14............passed
+And The color from the single-object response should be "black".............passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Update Object" time="0.784">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+Given Have token on the local storage.......................................passed
+When Send an http "PUT" request to "/{webhookId}/api/objects/{id}" with body:.passed
+Then The response code must be 200..........................................passed
+And The idObject is not null................................................passed
+And The name from the update response should be "Lenovo Yoga"...............passed
+And The year from the update response should be 2025........................passed
+And The price from the update response should be 1999.99....................passed
+And The cpu_model from the update response should be "Intel Core i8"........passed
+And The hard_disk_size from the update response should be "2 TB"............passed
+And The capacity from the update response should be "4".....................passed
+And The screen_size from the update response should be "12".................passed
+And The color from the update response should be "gray".....................passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Partially Update Object" time="0.77">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+Given Have token on the local storage.......................................passed
+When Send an http "PATCH" request to "/{webhookId}/api/object/{id}" with body:.passed
+Then The response code must be 200..........................................passed
+And The idObject is not null................................................passed
+And The name from the partially update response should be "Lenovo Ideapad"..passed
+And The year from the partially update response should be "2027"............passed
+And The color from the partially update response should be "white"..........passed
+]]></system-out>
+</testcase>
+<testcase classname="API" name="Delete Object" time="0.675">
+<system-out><![CDATA[
+Given The base url in this feature is "https://whitesmokehouse.com/webhook".passed
+Given Have token on the local storage.......................................passed
+When Send an http "DELETE" request to "/{webhookId}/api/objects/{id}" with body:.passed
+Then The response code must be 200..........................................passed
+]]></system-out>
+</testcase>
+</testsuite>

@@ -89,29 +89,19 @@
     </dependencies>
 
    <build>
-        <!-- To define the plugin version in your parent POM -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.3</version>
-                    <configuration>
-                        <forkCount>0</forkCount>
-                        <suiteXmlFiles>
-                            <!-- <suiteXmlFile>src/test/resources/parallel-testng.xml</suiteXmlFile> -->
-                            <suiteXmlFile>src/test/resources/parallel_testng.xml</suiteXmlFile>
-                        </suiteXmlFiles>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <!-- To use the plugin goals in your POM or parent POM -->
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
+    <plugins>
+        <!-- Active surefire plugin with suiteXmlFile -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.5.3</version>
+            <configuration>
+                <forkCount>0</forkCount>
+                <suiteXmlFiles>
+                    <suiteXmlFile>src/test/resources/cucumber_suite.xml</suiteXmlFile>
+                </suiteXmlFiles>
+            </configuration>
+        </plugin>
 
         <!-- Lombok annotation processor -->
         <plugin>
@@ -128,8 +118,26 @@
                 </annotationProcessorPaths>
             </configuration>
         </plugin>
-        </plugins>
 
-        
-    </build>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+        </plugin>
+
+    </plugins>
+
+     <resources>
+        <resource>
+            <directory>${project.basedir}</directory>
+            <includes>
+                <include>.env</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
+</build>
 </project>

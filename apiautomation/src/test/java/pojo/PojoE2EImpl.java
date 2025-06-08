@@ -93,7 +93,7 @@ public void setup() throws JsonProcessingException{
 public void registerEmployee() throws JsonProcessingException{
         
     //1. Hit the endpoint Register with valid data  
-    RequestRegister smRegister = new RequestRegister("testqa.wrc118@gmail.com","Test", "@dmin123", "Technology", "085611789000");
+    RequestRegister smRegister = new RequestRegister("testqa.wrc119@gmail.com","Test", "@dmin123", "Technology", "085611789000");
     ObjectMapper objectMapper = new ObjectMapper();
     String reqBodyRegister = objectMapper.writeValueAsString(smRegister);
     
@@ -112,14 +112,14 @@ public void registerEmployee() throws JsonProcessingException{
     Assert.assertEquals(responseRegister.getStatusCode(), 200, 
     "Expected Status Code 200 but got " + responseRegister.getStatusCode());
     Assert.assertNotNull(rspRegister.id, "Expected id but got null");
-    Assert.assertEquals(rspRegister.email, "testqa.wrc118@gmail.com");
+    Assert.assertEquals(rspRegister.email, "testqa.wrc119@gmail.com");
     Assert.assertEquals(rspRegister.fullName, "Test");
     Assert.assertEquals(rspRegister.department, "Technology");
     Assert.assertEquals(rspRegister.phoneNumber, "085611789000");
 
     //2. Hit the endpoint Login with valid data
     //Try using Serialize
-    RequestLogin smLogin = new RequestLogin("testqa.wrc118@gmail.com","@dmin123");
+    RequestLogin smLogin = new RequestLogin("testqa.wrc119@gmail.com","@dmin123");
     //ObjectMapper objectMapper = new ObjectMapper();
     String reqBodyLogin = objectMapper.writeValueAsString(smLogin);
     
