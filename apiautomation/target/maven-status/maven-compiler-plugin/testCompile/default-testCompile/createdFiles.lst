@@ -5,7 +5,6 @@ scenario\RestAssuredE2ETest.class
 definitions\RefactorDefinition$6.class
 firstcourse\ParallelTestNG.class
 definitions\RefactorDefinition$1.class
-helper\ConfigManager2.class
 definitions\RefactorDefinition$12.class
 definitions\RefactorDefinition$5.class
 restassured\RestAssuredImpl.class
@@ -22,6 +21,7 @@ definitions\RefactorDefinition$9.class
 runners\TestRunner.class
 definitions\RefactorDefinition$13.class
 schemavalidation\SchemaValidation.class
+context\TestContext.class
 definitions\RefactorDefinition$4.class
 definitions\RefactorDefinition$11.class
 definitions\RefactorDefinition$14.class

@@ -2,7 +2,7 @@ package helper;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-class ConfigManager {
+public class ConfigManager {
     private static final Dotenv dotenv = Dotenv.configure().load();
 
     public static String getBaseUrl(){
@@ -10,11 +10,11 @@ class ConfigManager {
     }
 }
 
-public class ConfigManager2 {
+/*public class ConfigManager2 {
     
     public static void main(String [] args){
     ConfigManager.getBaseUrl();
     System.out.println("Base URL: " + ConfigManager.getBaseUrl());
     }
 
-}
+}*/

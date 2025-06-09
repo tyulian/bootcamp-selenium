@@ -1,30 +1,26 @@
 Feature: API
 
-Background:
-Given The base url in this feature is "https://whitesmokehouse.com/webhook"
-
 Scenario: Register using valid data
-		When Send an http "POST" request to "/api/register" with body:
-       
-		"""
-			{
-				"email": "testqa.wrc86@gmail.com",
-				"full_name": "Test QA",
-				"password": "@dmin123",
-				"department": "Technology",
-				"phone_number": "085611789000"
-			}
-		"""
-		Then The response code must be 200
-		And The response schema should be match with schema "register-schema.json"
-		And The Id is not null
-		And The email should equal "testqa.wrc86@gmail.com"
-		And The full_name should equal "Test QA"
-		And The department should equal "Technology"
-		And The phone_number should equal "085611789000"
+    When Send request to register with body:
+	"""
+		{
+			"email": "testqa.wrc96@gmail.com",
+			"full_name": "Test QA",
+			"password": "@dmin123",
+			"department": "Technology",
+			"phone_number": "085611789000"
+		}
+	"""
+	Then The response code must be 200
+	And The response schema should be match with schema "register-schema.json"
+	And The Id is not null
+	And The email should equal "testqa.wrc96@gmail.com"
+	And The full_name should equal "Test QA"
+	And The department should equal "Technology"
+	And The phone_number should equal "085611789000"
 
 Scenario: Login using valid credentials		
-    When Send an http "POST" request to "/api/login" with body:
+	When Send request to login with body:
     """
         {
             "email": "trisniy097@gmail.com",
@@ -36,7 +32,7 @@ Scenario: Login using valid credentials
 
 Scenario: Create Object
     Given Have token on the local storage
-    When Send an http "POST" request to "/api/objects" with body:
+    When Send request to create object with body:
     """
     {
         "name": "Lenovo K14",
@@ -63,12 +59,14 @@ Scenario: Create Object
     And The screen_size from the create response should be "14 inch"
     And The color from the create response should be "black"
 
-   Scenario: Get Single Object
+Scenario: Get All Object
     Given Have token on the local storage
-    When Send an http "GET" request to "/{webhookId}/api/objects/{id}" with body:
-    """
-    {}
-    """
+    When Send request to get all object
+    Then The response code must be 200
+
+Scenario: Get Single Object
+    Given Have token on the local storage
+    When Send request to get single object
     Then The response code must be 200
     And The idObject is not null
     And The name from the single-object response should be "Lenovo K14"
@@ -80,9 +78,14 @@ Scenario: Create Object
     And The screen_size from the single-object response should be 14
     And The color from the single-object response should be "black"
 
-    Scenario: Update Object
+Scenario: List Object By Id
     Given Have token on the local storage
-    When Send an http "PUT" request to "/{webhookId}/api/objects/{id}" with body:
+    When Send request to get list object by id
+    Then The response code must be 200
+
+Scenario: Update Object
+    Given Have token on the local storage
+    When Send request to update object with body:
     """
     {
         "name": "Lenovo Yoga",
@@ -109,9 +112,9 @@ Scenario: Create Object
     And The screen_size from the update response should be "12"
     And The color from the update response should be "gray"
 
-    Scenario: Partially Update Object
+Scenario: Partially Update Object
     Given Have token on the local storage
-    When Send an http "PATCH" request to "/{webhookId}/api/object/{id}" with body:
+    When Send request to partially update object with body:
     """
     {
         "name": "Lenovo Ideapad",
@@ -126,11 +129,12 @@ Scenario: Create Object
     And The year from the partially update response should be "2027"
     And The color from the partially update response should be "white"
 
-    Scenario: Delete Object
+Scenario: Delete Object
     Given Have token on the local storage
-    When Send an http "DELETE" request to "/{webhookId}/api/objects/{id}" with body:
-    """
-    {}
-    """
+    When Send request to delete object
     Then The response code must be 200
-    
+
+Scenario: Department Object
+    Given Have token on the local storage
+    When Send request to get all department
+    Then The response code must be 200
