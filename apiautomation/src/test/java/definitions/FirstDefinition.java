@@ -1,4 +1,4 @@
-  package definitions;
+  /*package definitions;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
@@ -13,97 +13,101 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import apiengine.Endpoints;
-import context.TestContext;
 import io.cucumber.java.en.And;
   import io.cucumber.java.en.Given;
   import io.cucumber.java.en.Then;
   import io.cucumber.java.en.When;
+  import io.restassured.RestAssured;
   import io.restassured.module.jsv.JsonSchemaValidator;
   import io.restassured.response.Response;
 
-  public class RefactorDefinition extends Endpoints{
+  public class FirstDefinition{
       private String baseUrl;
       private Response response;
       private static String token;
       private static Integer idObject;
-      private final TestContext context;
       
-      public RefactorDefinition(TestContext context){
-        this.context = context;
+      @Given("The base url in this feature is {string}")
+      public void set_baseurl(String baseUrl){
+          this.baseUrl = baseUrl;
+          System.out.println("Base URL set: " + baseUrl);
+
       }
 
-      @When("Send request to register with body:")
-      public void send_request_register(String body){
-        response = registerEmployee(body);
-        context.setResponse(response);
+     @When("Send an http {string} request to {string} with body:")    
+      public void send_request_http(String method, String url, String body){
+          switch (method.toUpperCase()) {
+          case "GET":
+                  response = RestAssured.given()
+                          .header("Content-Type", "application/json")
+                          .header("Authorization", "Bearer " + token)
+                          .pathParam("webhookId", "8749129e-f5f7-4ae6-9b03-93be7252443c")
+                          .pathParam("id", idObject)
+                          .log().all()
+                          .when()
+                          .get(baseUrl + url);
+                  break;
+
+              case "DELETE":
+                  response = RestAssured.given()
+                          .header("Content-Type", "application/json")
+                          .header("Authorization", "Bearer " + token)
+                          .pathParam("webhookId", "d79a30ed-1066-48b6-83f5-556120afc46f")
+                          .pathParam("id", idObject)
+                          .log().all()
+                          .when()
+                          .delete(baseUrl + url);
+                  break;
+
+              case "POST":
+                  response = RestAssured.given()
+                          .header("Content-Type", "application/json")
+                          .header("Authorization", this.token != null ? "Bearer " + this.token : "")
+                          .body(body)
+                          .log().all()
+                          .when()
+                          .post(baseUrl + url);
+                  break;
+
+              case "PUT":
+                  response = RestAssured.given()
+                          .header("Content-Type", "application/json")
+                          .header("Authorization", this.token != null ? "Bearer " + this.token : "")
+                          .pathParam("webhookId", "37777abe-a5ef-4570-a383-c99b5f5f7906")
+                          .pathParam("id", idObject)
+                          .body(body)
+                          .log().all()
+                          .when()
+                          .put(baseUrl + url);
+                  break;
+              
+              case "PATCH":
+                  response = RestAssured.given()
+                          .header("Content-Type", "application/json")
+                          .header("Authorization", "Bearer " + token)
+                          .pathParam("webhookId", "39a0f904-b0f2-4428-80a3-391cea5d7d04")
+                          .pathParam("id", idObject)
+                          .body(body)
+                          .log().all()
+                          .when()
+                          .patch(baseUrl + url);
+                  break;
+              default:
+                  throw new IllegalArgumentException("Metode HTTP tidak didukung: " + method);
+          }
+          System.out.println("Base URL set: " + baseUrl);
+
       }
 
-      @When("Send request to login with body:")
-      public void send_request_login(String body){
-        response = loginEmployee(body);
-        context.setResponse(response);
-        
-      }
-
-      @When("Send request to create object with body:")
-      public void send_request_create_object(String body){
-         assert_token_in_variable();  
-        response = createObject(body,token);
-        context.setResponse(response);
-      }
-
-      @When("Send request to get all object")
-      public void send_request_get_all_object(){
-        response = getAllObject(token);
-        context.setResponse(response);
-      }
-
-      @When("Send request to get single object")
-      public void send_request_single_object(){
-        response = getSingleObject(token, idObject);
-        context.setResponse(response);
-      }
-
-      @When("Send request to get list object by id")
-      public void send_request_list_object_by_id(){
-        response = listObjectById(token,idObject);
-        context.setResponse(response);
-      }
-
-      @When("Send request to update object with body:")
-      public void send_request_update_object(String body){
-        response = updateObject(body, token, idObject);
-        context.setResponse(response);
-      }
-
-      @When("Send request to partially update object with body:")
-      public void send_request_partially_update_object(String body){
-        response = partiallyUpdateObject(body, token, idObject);
-        context.setResponse(response);
-      }
-      
-      @When("Send request to delete object")
-      public void send_request_delete_object(){
-        response = deleteObject(token, idObject);
-        context.setResponse(response);
-      }
-
-      @When("Send request to get all department")
-      public void send_request_get_all_department(){
-        response = getAllDepartment(token);
-        context.setResponse(response);
-      }
 
       @Then("The response code must be {int}")
       public void validate_status_code(int statusCode){
-        assert context.getResponse().statusCode() == statusCode: "Error, due to actual status code is " + context.getResponse().statusCode();
-        context.setResponse(response);
-      }
+          assert response.statusCode() == statusCode: "Error, due to actual status code is " + response.statusCode();
+        }
 
       @And("The response schema should be match with schema {string}")
       public void schema_validation(String schemaPath){
-          context.getResponse().then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(schemaPath));         
+          response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath(schemaPath));         
         }
 
       @And("The Id is not null")
@@ -153,9 +157,9 @@ import io.cucumber.java.en.And;
       public void validate_idObject(){
           if (idObject == null) {
             try {
-                RefactorDefinition.idObject = response.jsonPath().getInt("id"); // jika response adalah object
+                FirstDefinition.idObject = response.jsonPath().getInt("id"); // jika response adalah object
             } catch (Exception e) {
-                RefactorDefinition.idObject = response.jsonPath().getInt("[0].id"); // jika response adalah array
+                FirstDefinition.idObject = response.jsonPath().getInt("[0].id"); // jika response adalah array
             }
           }
 
@@ -241,7 +245,7 @@ import io.cucumber.java.en.And;
         Assert.assertEquals(expectedColor, actualColor);
       }
 
-      /*/////////////////////////////////////////////////////////////////////////*/
+      ////////////////////////////////////////////////////////////////////////
       @And("The name from the single-object response should be {string}")
       public void validate_singleName(String expectedName){      
         ResponseSingleObject rspSingleObj = response.as(ResponseSingleObject.class);
@@ -299,7 +303,7 @@ import io.cucumber.java.en.And;
         Assert.assertEquals(expectedColor, actualColor);
       }
 
-      /*/////////////////////////////////////////////////////////////////////////// */
+      /////////////////////////////////////////////////////////////////////////// 
 
       @And("The name from the update response should be {string}")
       public void validate_updateName(String expectedName) throws JsonProcessingException{         
@@ -374,7 +378,7 @@ import io.cucumber.java.en.And;
         Assert.assertEquals(expectedColor, actualColor);
       }
 
-      /*/////////////////////////////////////////////////////////////////////////*/
+      /////////////////////////////////////////////////////////////////////////
 
       @And("The name from the partially update response should be {string}")
       public void validate_partiallyUpdateName(String expectedPartName){      
@@ -399,6 +403,7 @@ import io.cucumber.java.en.And;
         Assert.assertEquals(expectedColor, actualColor);
       }
 
-      /*/////////////////////////////////////////////////////////////////////////// */
+      ////////////////////////////////////////////////////////////////////////////
 
   }
+*/

@@ -1,16 +1,21 @@
 package apiengine;
 
+import helper.ConfigManager;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class Endpoints {
 
-    String token, tokenLogin;
-    int idObject;
+    //private final TestContext context;
 
     public Endpoints(){
-        RestAssured.baseURI="https://whitesmokehouse.com";
+        String baseUrl = ConfigManager.getBaseUrl();
+        RestAssured.baseURI=baseUrl;
     }
+
+   /* public Endpoints(TestContext context){
+        this.context = context;
+    } */
 
     public Response registerEmployee(String bodyRequest){
         Response responseRegister = RestAssured.given()
@@ -34,23 +39,21 @@ public class Endpoints {
         return responseLogin;    
     }
 
-    public Response getSingleObject(String bodyRequest){
+    public Response getSingleObject(String token, int idObject){
         Response responseSingleObj = RestAssured.given()
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .pathParam("webhookId", "8749129e-f5f7-4ae6-9b03-93be7252443c")
-            .pathParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .log().all()
             .when()
-            .get("/webhook/{webhookId}/api/objects/" + idObject);
+            .get("/webhook/8749129e-f5f7-4ae6-9b03-93be7252443c/api/objects/" + idObject);
     
         return responseSingleObj;    
     }
 
-    public Response createObject(String bodyRequest){
+    public Response createObject(String bodyRequest, String token){
         Response responseCreateObj = RestAssured.given()
             .header("Content-Type","application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
+            .header("Authorization", "Bearer " + token)
             .body(bodyRequest)
             .log().all()
             .when()
@@ -58,73 +61,65 @@ public class Endpoints {
         return responseCreateObj;  
     }
 
-    public Response updateObject(String bodyRequest){
+    public Response updateObject(String bodyRequest, String token, int idObject){
         Response responseUpdateObj = RestAssured.given()
             .header("Content-Type","application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .pathParam("webhookId", "37777abe-a5ef-4570-a383-c99b5f5f7906")
-            .pathParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .body(bodyRequest)
             .log().all()
             .when()
-            .put("/webhook/{webhookId}/api/objects/{id}");
+            .put("/webhook/37777abe-a5ef-4570-a383-c99b5f5f7906/api/objects/" + idObject);
         return responseUpdateObj;  
     }
 
-    public Response partiallyUpdateObject(String bodyRequest){
+    public Response partiallyUpdateObject(String bodyRequest,String token, int idObject){
         Response responsePartiallyUpdateObj = RestAssured.given()
             .header("Content-Type","application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .pathParam("webhookId", "39a0f904-b0f2-4428-80a3-391cea5d7d04")
-            .pathParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .body(bodyRequest)
             .log().all()
             .when()
-            .patch("/webhook/{webhookId}/api/object/{id}");
+            .patch("/webhook/39a0f904-b0f2-4428-80a3-391cea5d7d04/api/object/"+idObject);
         return responsePartiallyUpdateObj;  
     }
 
-    public Response deleteObject(String bodyRequest){
+    public Response deleteObject(String token, int idObject){
         Response responseDeleteObj = RestAssured.given()
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .pathParam("webhookId", "d79a30ed-1066-48b6-83f5-556120afc46f")
-            .pathParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .log().all()
             .when()
-            .delete("/webhook/{webhookId}/api/objects/{id}");
+            .delete("/webhook/d79a30ed-1066-48b6-83f5-556120afc46f/api/objects/" + idObject);
         return responseDeleteObj;  
     }
 
-    public Response listObjectById(String bodyRequest){
+    public Response listObjectById(String token, int idObject){
         Response responseListObjById = RestAssured.given()
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .queryParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .log().all()
             .when()
-            .get("/webhook/api/objectslistId");    
+            .get("/webhook/api/objectslistId?id=" + idObject);    
         return responseListObjById;    
     }
 
-    public Response getAllDepartment(){
-        Response responseListObjById = RestAssured.given()
+    public Response getAllDepartment(String token){
+        Response responsegetAllDepartment = RestAssured.given()
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
-            .queryParam("id", idObject)
+            .header("Authorization", "Bearer " + token)
             .log().all()
             .when()
-            .get("/webhook/api/objectslistId");    
-        return responseListObjById;    
+            .get("/webhook/api/department");  
+        return responsegetAllDepartment;    
     }
 
-    public Response getAllObject(){
+    public Response getAllObject(String token){
          Response responseGetAllObj = RestAssured.given()
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer " + tokenLogin)
+            .header("Authorization", "Bearer " + token)
             .log().all()
             .when()
-            .get("webhook/api/objects");
+            .get("/webhook/api/objects");
         return responseGetAllObj;
     }
 }
