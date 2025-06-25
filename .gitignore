@@ -36,3 +36,11 @@ test-output/
 
 # Dependency directories
 lib/
+
+# Local configuration
+.env
+/target/
+
+
+# Ignore ChromeDriver file
+chromedriver.exe
