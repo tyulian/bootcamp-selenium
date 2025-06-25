@@ -3,6 +3,7 @@ pojo\PojoE2EImpl$2.class
 definitions\RefactorDefinition$16.class
 scenario\RestAssuredE2ETest.class
 definitions\RefactorDefinition$6.class
+selenium\locator\SeleniumIntroduction.class
 firstcourse\ParallelTestNG.class
 definitions\RefactorDefinition$1.class
 definitions\RefactorDefinition$12.class
