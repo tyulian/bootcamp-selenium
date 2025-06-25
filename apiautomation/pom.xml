@@ -86,6 +86,13 @@
             <artifactId>cucumber-picocontainer</artifactId>
             <version>7.22.2</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.33.0</version>
+        </dependency>
     </dependencies>
 
    <build>
@@ -98,7 +105,8 @@
             <configuration>
                 <forkCount>0</forkCount>
                 <suiteXmlFiles>
-                    <suiteXmlFile>src/test/resources/cucumber_suite.xml</suiteXmlFile>
+                    <!--<suiteXmlFile>src/test/resources/cucumber_suite.xml</suiteXmlFile> -->
+                    <suiteXmlFile>src/test/resources/selenium.xml</suiteXmlFile>
                 </suiteXmlFiles>
             </configuration>
         </plugin>

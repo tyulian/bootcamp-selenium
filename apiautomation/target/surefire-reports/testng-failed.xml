@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="3" parallel="methods" name="Failed suite [SeleniumSuite]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="3" parallel="methods" name="Selenium(failed)" verbose="0">
+    <classes>
+      <class name="selenium.selenium_scenario.Login">
+        <methods>
+          <include name="setup"/>
+          <include name="invalidCredentials" invocation-numbers="0"/>
+          <include name="tearDown"/>
+          <include name="validCredentials"/>
+        </methods>
+      </class> <!-- selenium.selenium_scenario.Login -->
+    </classes>
+  </test> <!-- Selenium(failed) -->
+</suite> <!-- Failed suite [SeleniumSuite] -->
