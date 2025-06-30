@@ -15,6 +15,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.demo.pageobjects.LoginPage;
+
 public class CheckoutTest {
 static WebDriver driver;
 
@@ -33,8 +35,11 @@ static WebDriver driver;
     @Test
     public void LoginWithValidCredentials(){
         //Insert valid credentials
-        driver.findElement(By.id("userEmail")).sendKeys("testqa.wrc@gmail.com");
-        driver.findElement(By.id("userPassword")).sendKeys("@Dmin123");
+        /*driver.findElement(By.id("userEmail")).sendKeys("testqa.wrc@gmail.com");
+        driver.findElement(By.id("userPassword")).sendKeys("@Dmin123");*/
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginApplication("testqa.wrc@gmail.com", "@Dmin123");
+
         driver.findElement(By.id("login")).click();
         
         String homepage = driver.findElement(By.xpath("//div[@class = 'left mt-1']/p")).getText();

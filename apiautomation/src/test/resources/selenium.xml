@@ -4,7 +4,7 @@
 <suite name="SeleniumSuite" verbose="1" parallel="true" thread-count="3">
   <test name="Selenium">
     <classes>
-      <class name="selenium.selenium_scenario.Login"/>
+      <class name="selenium.selenium_pom.Saucedemo_Login"/>
     </classes>
   </test>
 </suite>

@@ -13,10 +13,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class LoginLogoutScenario {
-    static WebDriver driver;
+    WebDriver driver;
 
     @BeforeMethod
-    public static void setup(){
+    public void setup(){
          //Setup webdriver
         System.setProperty("webdriver.chrome.driver", "C:/Users/trisni.yuliana/Downloads/Bootcamp/chromedriver.exe");
     
