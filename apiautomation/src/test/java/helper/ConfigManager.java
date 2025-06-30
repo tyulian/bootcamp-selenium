@@ -8,6 +8,15 @@ public class ConfigManager {
     public static String getBaseUrl(){
         return dotenv.get("BASE_URL");
     }
+
+    public static String getBrowser(){
+        return dotenv.get("BROWSER");
+    }
+
+    public static String getWebURL(){
+        return dotenv.get("WEB_URL");
+
+    }
 }
 
 /*public class ConfigManager2 {
